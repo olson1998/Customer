@@ -8,5 +8,6 @@ CREATE TABLE Customer(</br>
     pesel VARCHAR(11) PRIMARY KEY //przyjmując, że to polski pesel</br>
     )
    </br>
-    ![image](https://user-images.githubusercontent.com/64684630/153496549-026d7567-86b5-4368-85f6-7e7ccbe82e10.png)
+    ![image](https://user-images.githubusercontent.com/64684630/153497123-91c7dcc1-e796-4191-bf7b-5753f8c0c3ad.png)
+
 
