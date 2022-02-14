@@ -24,8 +24,4 @@ public class RepositoriesTest {
         assertEquals(Optional.empty(),cr.getByPesel("98122812"));
     }
 
-    @Test
-    public void testGetAllCustomers(){
-        assertNotEquals(0, cr.getAllCustomers().size());
-    }
 }

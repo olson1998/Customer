@@ -3,25 +3,25 @@ package com.customer.app;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.time.Clock;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin
 
 @RestController
+@RequestMapping("/customer")
 public class CustomerController {
 
     @Resource
     private CustomerService cs; //logika biznesowa dla obiektu Customer
 
     @GetMapping
-    @RequestMapping("/all")
-    public List<Customer> allCustomers(){
-        System.out.println("Returned all at: " + getCurrentTime()); //wyświetlenie w konsoli informacji
-        return cs.getAllCustomers();
+    @RequestMapping("/filtered/")
+    public List<Customer> allCustomers(@RequestBody List<Integer> ids){
+        List<Customer> cc = cs.getFilteredCustomers(ids); //certain clients
+        System.out.println("Returned certain clients: " + cc.toString() + " at: " + getCurrentTime()); //wyświetlenie w konsoli informacji
+        return cc;
     }
 
     @GetMapping
@@ -32,9 +32,17 @@ public class CustomerController {
         return cs.searchForCustomerByPesel(pesel);
     }
 
+    @RequestMapping(value = "", method = {RequestMethod.POST, RequestMethod.GET})
+    public int createCustomer(@RequestBody Customer customer){
+        int id = cs.generateNewId();
+        customer.setId(id);
+        cs.checkAndSave(customer);
+        return id;
+    }
+
     //zwraca czas lokalny
-    private LocalDateTime getCurrentTime(){
-        return LocalDateTime.now().withNano(0);
+    private ZonedDateTime getCurrentTime(){
+        return ZonedDateTime.now().withNano(0);
     }
 
 }

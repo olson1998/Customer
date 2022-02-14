@@ -1,8 +1,6 @@
 package com.customer.app;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Customer {
@@ -10,6 +8,15 @@ public class Customer {
     private int id;
     private String lastName;
     private String pesel;
+
+    public Customer() {
+    }
+
+    public Customer(String firstName, String lastName, String pesel) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.pesel = pesel;
+    }
 
     @Column(name = "first_Name",nullable = false, length = 40)
     public String getFirstName() {
@@ -48,4 +55,5 @@ public class Customer {
     public void setPesel(String pesel) {
         this.pesel = pesel;
     }
+
 }

@@ -3,6 +3,8 @@ package com.customer.app;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,8 +13,10 @@ import java.util.stream.Collectors;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
-    default List<Customer> getAllCustomers(){
-        return findAll();
+    default List<Customer> getCertainCustomers(List<Integer> ids){
+        return findAll().stream()
+                .filter(c -> ids.contains(c.getId()))
+                .collect(Collectors.toList());
     }
 
     default Optional<Customer> getByPesel(String pesel){
@@ -32,8 +36,11 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
         return customer;
     }
 
-    default String saveCustomer(Customer c){
-        save(c);
-        return c.getId() + " ";
+    default Optional<Integer> findLastID(){
+        return findAll().stream()
+                .map(Customer::getId)
+                .max(Comparator.naturalOrder());
     }
+
+    default void saveCustomer(Customer c){ save(c);}
 }
