@@ -1,5 +1,5 @@
 # Customer-Inteca
-jdbc:mariadb://localhost:3306/creditdata</br>
+jdbc:mariadb://localhost:3306/clients</br>
 </br>
 CREATE TABLE Customer(</br>
     firstName CHAR NOT NULL,</br>
