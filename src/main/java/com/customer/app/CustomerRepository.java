@@ -16,14 +16,15 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     default List<Customer> getCertainCustomers(List<Integer> ids){
         return findAll().stream()
                 .filter(c -> ids.contains(c.getId()))
+                .sorted(Comparator.comparing(Customer::getId))
                 .collect(Collectors.toList());
     }
 
     default Optional<Customer> getByPesel(String pesel){
         Optional<Customer> customer = Optional.empty(); //tworzenie Customera bez przypisania wartości polom
-        List<Customer> col = findAll() //Lista zebranych Customerów z użyciem metody findall z JPA repository
-                .stream()
+        List<Customer> col = findAll().stream() //Lista zebranych Customerów z użyciem metody findall z JPA repository
                 .filter(c-> c.getPesel().equals(pesel))
+                .sorted(Comparator.comparing(Customer::getId))
                 .collect(Collectors.toList());
         if(col.size() > 1){
             //w przypadku gdy zebranych zostanie więcej niż 1 customer wyświetl błąd i zwracaj pustego customera
