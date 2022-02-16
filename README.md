@@ -1,5 +1,6 @@
 # Customer-Inteca
-jdbc:mariadb://localhost:3306/clients</br>
+url: jdbc:mariadb://localhost:3306/clients</br>
+url azure: jdbc:sqlserver://olsonsql.database.windows.net:1433;database=bank;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30; </br>
 </br>
 CREATE TABLE Customer(</br>
     firstName CHAR NOT NULL,</br>
