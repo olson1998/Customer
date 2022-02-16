@@ -14,13 +14,13 @@ import java.util.Optional;
 public class CustomerController {
 
     @Resource
-    private CustomerService cs; //logika biznesowa dla obiektu Customer
+    private CustomerService cs;     //logika biznesowa dla obiektu Customer
 
     @GetMapping
     @RequestMapping("/filtered/")
     public List<Customer> allCustomers(@RequestBody List<Integer> ids){
         List<Customer> cc = cs.getFilteredCustomers(ids); //certain clients
-        System.out.println("Returned certain clients: " + cc.toString() + " at: " + getCurrentTime()); //wyświetlenie w konsoli informacji
+        System.out.println("Returned certain clients: " + cc.toString() + " at: " + getCurrentTime());      //wyświetlenie w konsoli informacji
         return cc;
     }
 
@@ -32,10 +32,11 @@ public class CustomerController {
         return cs.searchForCustomerByPesel(pesel);
     }
 
-    @RequestMapping(value = "", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(method = {RequestMethod.POST, RequestMethod.GET})
     public int createCustomer(@RequestBody Customer customer){
         int id = cs.generateNewId();
         customer.setId(id);
+        System.out.println(customer.toString());
         cs.checkAndSave(customer);
         return id;
     }
