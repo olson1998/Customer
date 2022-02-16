@@ -20,7 +20,7 @@ public class CustomerController {
     @RequestMapping("/filtered/")
     public List<Customer> allCustomers(@RequestBody List<Integer> ids){
         List<Customer> cc = cs.getFilteredCustomers(ids); //certain clients
-        System.out.println("Returned certain clients: " + cc.toString() + " at: " + getCurrentTime());      //wyświetlenie w konsoli informacji
+        displayConsoleMessage("Returned certain clients: " + cc.toString());
         return cc;
     }
 
@@ -28,22 +28,30 @@ public class CustomerController {
     @RequestMapping("/search/{pesel}")
     public Optional<Customer> searchCustomer(@PathVariable String pesel){
         //wyświetlenie w konsoli informacji
-        System.out.println("Returned" + cs.searchForCustomerByPesel(pesel).toString() + " at: "  +getCurrentTime());
-        return cs.searchForCustomerByPesel(pesel);
+        Optional<Customer> c = cs.searchForCustomerByPesel(pesel);
+        displayConsoleMessage("Returned customer: " + c.toString());
+        return c;
     }
 
     @RequestMapping(method = {RequestMethod.POST, RequestMethod.GET})
-    public int createCustomer(@RequestBody Customer customer){
-        int id = cs.generateNewId();
+    public Integer createCustomer(@RequestBody Customer customer){
+        Integer id = cs.generateNewId();
         customer.setId(id);
-        System.out.println(customer.toString());
-        cs.checkAndSave(customer);
+        displayConsoleMessage("Requested to save: " + customer.toString());
+        id = cs.checkAndSave(customer);  //sprawdzenie poprawności danych, w przypadku nie zatwierdzenia formularza zwraca null
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
         return id;
     }
 
     //zwraca czas lokalny
     private ZonedDateTime getCurrentTime(){
         return ZonedDateTime.now().withNano(0);
+    }
+
+    private void displayConsoleMessage(String msg){
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("msg: " + msg);
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
     }
 
 }

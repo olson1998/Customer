@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
+    //zwraca listę klientów o podanych w liście id
     default List<Customer> getCertainCustomers(List<Integer> ids){
         return findAll().stream()
                 .filter(c -> ids.contains(c.getId()))
@@ -20,6 +21,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
                 .collect(Collectors.toList());
     }
 
+    //wyszukuje klienta po jego peselu
     default Optional<Customer> getByPesel(String pesel){
         Optional<Customer> customer = Optional.empty(); //tworzenie Customera bez przypisania wartości polom
         List<Customer> col = findAll().stream() //Lista zebranych Customerów z użyciem metody findall z JPA repository
@@ -37,6 +39,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
         return customer;
     }
 
+    //zwraca ostatni id
     default Optional<Integer> findLastID(){
         return findAll().stream()
                 .map(Customer::getId)
